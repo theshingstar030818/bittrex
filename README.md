@@ -6,11 +6,8 @@ Need to install cordova and ionic
 
 ```bash
 $ sudo npm install -g ionic cordova
-```
-
-Then, to run it, cd into `mySideMenu` and run:
-
-```bash
+$ cd bittrex
+$ nmp install
 $ ionic cordova platform add ios
 $ ionic cordova run ios
 ```
