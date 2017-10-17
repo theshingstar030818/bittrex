@@ -6,37 +6,69 @@
 -->
 <ion-header>
 
-  <ion-navbar>
-  	<button ion-button menuToggle>
+    <ion-navbar>
+        <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Markets</ion-title>
-  </ion-navbar>
-  <ion-toolbar no-border-top>
-    <ion-searchbar
-	  [(ngModel)]="publicMarketsSearchText"
-	  [showCancelButton]="shouldShowCancel"
-	  (ionInput)="filterItems($event)"
-	  (ionCancel)="setItems($event)">
-	</ion-searchbar>
-  </ion-toolbar>
+        <ion-title>Bittrex Markets</ion-title>
+    </ion-navbar>
+    <ion-toolbar no-border-top>
+        <ion-searchbar [(ngModel)]="publicMarketsSearchText" [showCancelButton]="shouldShowCancel" (ionInput)="filterItems($event)" (ionCancel)="setItems($event)">
+        </ion-searchbar>
+    </ion-toolbar>
 </ion-header>
 
 
 <ion-content padding>
-	<ion-list>
-		<ion-list-header>
-			Public Markets
-		</ion-list-header>
-		
-		<ion-item *ngFor="let market of publicMarkets">
-			<ion-avatar item-start>
-				<img src="{{market.LogoUrl}}">
-			</ion-avatar>
-			<h2>{{market?.MarketName}}</h2>
-			<p>{{market?.BaseCurrencyLong}} {{market?.MarketCurrencyLong}} </p>
-			<ion-note item-end color="secondary" *ngIf="market.IsActive">Active</ion-note>
-			<ion-note item-end color="danger" *ngIf="!market.IsActive">InActive</ion-note>
-		</ion-item>
-	</ion-list>
+
+    <div padding>
+        <ion-segment (onClick)="setItemsBySegment()" [(ngModel)]="marketType">
+            <ion-segment-button value="BTC">
+                BTC
+            </ion-segment-button>
+            <ion-segment-button value="ETH" (onClick)="setItemsBySegment()">
+                ETH
+            </ion-segment-button>
+            <ion-segment-button value="USD">
+                USD
+            </ion-segment-button>
+        </ion-segment>
+    </div>
+
+    <div [ngSwitch]="marketType">
+        <ion-list *ngSwitchCase="'ETH'">
+            <ion-item *ngFor="let market of publicMarketsSegment['ETH']['curr']">
+                <ion-avatar item-start>
+                    <img src="{{market.LogoUrl}}">
+                </ion-avatar>
+                <h2>{{market?.MarketName}}</h2>
+                <p>{{market?.BaseCurrencyLong}} {{market?.MarketCurrencyLong}} </p>
+                <ion-note item-end color="secondary" *ngIf="market.IsActive">Active</ion-note>
+                <ion-note item-end color="danger" *ngIf="!market.IsActive">InActive</ion-note>
+            </ion-item>
+        </ion-list>
+
+        <ion-list *ngSwitchCase="'BTC'">
+            <ion-item *ngFor="let market of publicMarketsSegment['BTC']['curr']">
+                <ion-avatar item-start>
+                    <img src="{{market.LogoUrl}}">
+                </ion-avatar>
+                <h2>{{market?.MarketName}}</h2>
+                <p>{{market?.BaseCurrencyLong}} {{market?.MarketCurrencyLong}} </p>
+                <ion-note item-end color="secondary" *ngIf="market.IsActive">Active</ion-note>
+                <ion-note item-end color="danger" *ngIf="!market.IsActive">InActive</ion-note>
+            </ion-item>
+        </ion-list>
+        <ion-list *ngSwitchCase="'USD'">
+            <ion-item *ngFor="let market of publicMarketsSegment['USD']['curr']">
+                <ion-avatar item-start>
+                    <img src="{{market.LogoUrl}}">
+                </ion-avatar>
+                <h2>{{market?.MarketName}}</h2>
+                <p>{{market?.BaseCurrencyLong}} {{market?.MarketCurrencyLong}} </p>
+                <ion-note item-end color="secondary" *ngIf="market.IsActive">Active</ion-note>
+                <ion-note item-end color="danger" *ngIf="!market.IsActive">InActive</ion-note>
+            </ion-item>
+        </ion-list>
+    </div>
 </ion-content>

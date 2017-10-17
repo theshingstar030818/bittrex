@@ -6,37 +6,33 @@
 -->
 <ion-header>
 
-  <ion-navbar>
-  	<button ion-button menuToggle>
+    <ion-navbar>
+        <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Currencies</ion-title>
-  </ion-navbar>
-  <ion-toolbar no-border-top>
-    <ion-searchbar
-	  [(ngModel)]="currenciesSearchText"
-	  [showCancelButton]="shouldShowCancel"
-	  (ionInput)="filterItems($event)"
-	  (ionCancel)="setItems($event)">
-	</ion-searchbar>
-  </ion-toolbar>
+        <ion-title>Currencies</ion-title>
+    </ion-navbar>
+    <ion-toolbar no-border-top>
+        <ion-searchbar [(ngModel)]="currenciesSearchText" [showCancelButton]="shouldShowCancel" (ionInput)="filterItems($event)" (ionCancel)="setItems($event)">
+        </ion-searchbar>
+    </ion-toolbar>
 </ion-header>
 
 
 <ion-content padding>
-	<ion-list>
-		<ion-list-header>
-			Currencies Available
-		</ion-list-header>
-		
-		<ion-item *ngFor="let currency of currencies">
-			<!-- <ion-avatar item-start>
+    <ion-list>
+        <ion-list-header>
+            Currencies Available
+        </ion-list-header>
+
+        <ion-item *ngFor="let currency of currencies">
+            <!-- <ion-avatar item-start>
 				<img src="{{currency.LogoUrl}}">
 			</ion-avatar> -->
-			<h2>{{currency?.CurrencyLong}}</h2>
-			<p>CODE : {{currency?.Currency}} TYPE: {{currency?.CoinType}} </p>
-			<ion-note item-end color="secondary" *ngIf="currency.IsActive">Active</ion-note>
-			<ion-note item-end color="danger" *ngIf="!currency.IsActive">InActive</ion-note>
-		</ion-item>
-	</ion-list>
+            <h2>{{currency?.CurrencyLong}} ({{currency?.Currency}})</h2>
+            <p></p>
+            <ion-note item-end color="secondary" *ngIf="currency.IsActive">Active</ion-note>
+            <ion-note item-end color="danger" *ngIf="!currency.IsActive">InActive</ion-note>
+        </ion-item>
+    </ion-list>
 </ion-content>

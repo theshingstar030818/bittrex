@@ -12,7 +12,6 @@ import 'rxjs/add/operator/map';
 export class BittrexProvider {
 
   constructor(public http: Http) {
-    console.log('Hello BittrexProvider Provider');
   }
 
   getPublicMarkets(){

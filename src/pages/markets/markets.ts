@@ -15,8 +15,15 @@ import { BittrexProvider } from './../../providers/bittrex/bittrex';
 })
 export class MarketsPage {
 
+
+	marketType: string = 'BTC';
 	publicMarketsOrignal: Array<any>;
-	publicMarkets: Array<any>;
+	publicMarketsSegment = {
+		BTC: {},
+		ETH: {},
+		USD: {} 
+	}
+	
 	publicMarketsSearchText: string;
 	shouldShowCancel: boolean = true;
 	
@@ -29,9 +36,10 @@ export class MarketsPage {
 	ngOnInit() {
 		let me = this;
 	    me.bittrex.getPublicMarkets().then((pMarkets)=>{
-	      me.publicMarkets=pMarkets['result'];
-	      me.publicMarketsOrignal=pMarkets['result'];
-	      console.log(me.publicMarkets);
+				me.publicMarketsOrignal=pMarkets['result'];
+				me.setItemsBySegment('USD');
+				me.setItemsBySegment('BTC');
+				me.setItemsBySegment('ETH');
 	    }).catch((error)=>{
 	      console.error(error);
 	    });
@@ -41,8 +49,17 @@ export class MarketsPage {
 		console.log('ionViewDidLoad MarketsPage');
 	}
 
+	setItemsBySegment(marketType){
+		this.publicMarketsSegment[marketType]['orignal'] = this.publicMarketsOrignal.filter(function(market) {
+			return market['BaseCurrency'].toLowerCase().includes(marketType.toLowerCase());
+		});
+		this.publicMarketsSegment[marketType]['curr'] = this.publicMarketsSegment[marketType]['orignal'];
+	}
+
 	setItems(event?: any) {
-	    this.publicMarkets = this.publicMarketsOrignal;
+		this.publicMarketsSegment[this.marketType]['USD'] = this.publicMarketsSegment['USD']['orignal'];
+		this.publicMarketsSegment[this.marketType]['BTC'] = this.publicMarketsSegment['BTC']['orignal'];
+		this.publicMarketsSegment[this.marketType]['ETH'] = this.publicMarketsSegment['ETH']['orignal'];
 	}
 
 	filterItems(ev: any) {
@@ -50,7 +67,7 @@ export class MarketsPage {
 	    let val = ev.target.value;
 
 	    if (val && val.trim() !== '') {
-	      this.publicMarkets = this.publicMarkets.filter(function(market) {
+	      this.publicMarketsSegment[this.marketType]['curr'] = this.publicMarketsSegment[this.marketType]['orignal'].filter(function(market) {
 	        return market['MarketName'].toLowerCase().includes(val.toLowerCase());
 	      });
 	    }
